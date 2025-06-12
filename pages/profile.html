@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 校园墙</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .profile-header {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+        }
+        .menu-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .menu-item:hover {
+            transform: translateY(-2px);
+        }
+        .nav-icon {
+            transition: all 0.2s;
+        }
+        .nav-icon:hover {
+            color: #3b82f6;
+        }
+        /* 自定义滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 个人信息头部 -->
+    <div class="profile-header text-white pt-12 pb-8 px-4">
+        <div class="flex items-center">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop" class="w-16 h-16 rounded-full border-4 border-white border-opacity-20 object-cover" alt="用户头像">
+            <div class="ml-4">
+                <h2 class="text-xl font-bold">张三</h2>
+                <p class="text-sm opacity-80">计算机科学与技术学院</p>
+            </div>
+            <button class="ml-auto bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-1 rounded-full text-sm transition-all">
+                编辑资料
+            </button>
+        </div>
+        <div class="flex justify-around mt-6">
+            <div class="text-center">
+                <div class="text-xl font-bold">28</div>
+                <div class="text-sm opacity-80">发布</div>
+            </div>
+            <div class="text-center">
+                <div class="text-xl font-bold">156</div>
+                <div class="text-sm opacity-80">关注</div>
+            </div>
+            <div class="text-center">
+                <div class="text-xl font-bold">89</div>
+                <div class="text-sm opacity-80">粉丝</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 功能菜单 -->
+    <div class="px-4 -mt-4">
+        <div class="grid grid-cols-4 gap-4 bg-white rounded-t-2xl p-4">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto hover:bg-blue-200 transition-colors">
+                    <i class="fas fa-heart text-blue-500"></i>
+                </div>
+                <div class="text-xs mt-1 text-gray-600">我的收藏</div>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto hover:bg-green-200 transition-colors">
+                    <i class="fas fa-history text-green-500"></i>
+                </div>
+                <div class="text-xs mt-1 text-gray-600">浏览历史</div>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto hover:bg-purple-200 transition-colors">
+                    <i class="fas fa-star text-purple-500"></i>
+                </div>
+                <div class="text-xs mt-1 text-gray-600">我的点赞</div>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto hover:bg-orange-200 transition-colors">
+                    <i class="fas fa-comment text-orange-500"></i>
+                </div>
+                <div class="text-xs mt-1 text-gray-600">我的评论</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置列表 -->
+    <div class="px-4 mt-4 space-y-4">
+        <div class="menu-item p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-cog text-blue-500 w-6"></i>
+                    <span class="ml-3 text-gray-800">设置</span>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+        <div class="menu-item p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-blue-500 w-6"></i>
+                    <span class="ml-3 text-gray-800">隐私设置</span>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+        <div class="menu-item p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-question-circle text-blue-500 w-6"></i>
+                    <span class="ml-3 text-gray-800">帮助与反馈</span>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+        <div class="menu-item p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 w-6"></i>
+                    <span class="ml-3 text-gray-800">关于我们</span>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <div class="flex justify-around py-2">
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs mt-1">首页</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-plus-circle text-xl"></i>
+                <span class="text-xs mt-1">发布</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-comment text-xl"></i>
+                <span class="text-xs mt-1">消息</span>
+            </div>
+            <div class="flex flex-col items-center text-blue-500">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs mt-1">我的</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

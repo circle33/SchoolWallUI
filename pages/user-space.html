@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户空间 - 校园墙</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
+        }
+        .nav-icon {
+            transition: all 0.2s;
+        }
+        .nav-icon:hover {
+            color: #3b82f6;
+        }
+        .post-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #3b82f6;
+            background-color: #f0f7ff;
+            margin-right: 8px;
+        }
+        .online-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .online {
+            background-color: #22c55e;
+        }
+        .offline {
+            background-color: #94a3b8;
+        }
+        .avatar-container {
+            position: relative;
+        }
+        .user-header {
+            background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+            padding: 24px 16px;
+            color: white;
+            border-radius: 0 0 24px 24px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        /* 自定义滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .nav-bar {
+            background: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 顶部导航 -->
+    <div class="fixed top-0 left-0 right-0 nav-bar z-40">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center">
+                <i class="fas fa-arrow-left text-gray-600 nav-icon"></i>
+                <h1 class="text-xl font-bold ml-4 text-blue-600">用户空间</h1>
+            </div>
+            <i class="fas fa-ellipsis-h text-gray-600 nav-icon"></i>
+        </div>
+    </div>
+
+    <!-- 用户信息头部 -->
+    <div class="user-header mt-14">
+        <div class="flex flex-col items-center">
+            <div class="avatar-container mb-4">
+                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop" 
+                     class="w-24 h-24 rounded-full object-cover border-4 border-white" alt="用户头像">
+                <div class="online-status online"></div>
+            </div>
+            <h2 class="text-xl font-bold mb-1">张三</h2>
+            <p class="text-sm opacity-90 mb-4">计算机科学与技术学院</p>
+            <div class="flex space-x-4">
+                <button class="bg-white text-blue-500 px-6 py-2 rounded-full font-medium hover:bg-blue-50 transition-colors">
+                    <i class="fas fa-user-plus mr-2"></i>关注
+                </button>
+                <button class="bg-blue-500 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-comment mr-2"></i>聊天
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户统计数据 -->
+    <div class="bg-white mt-4 mx-4 rounded-2xl shadow-sm">
+        <div class="grid grid-cols-4 divide-x divide-gray-100">
+            <div class="stat-item">
+                <div class="stat-value text-gray-800">128</div>
+                <div class="stat-label text-gray-500">帖子</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value text-gray-800">1.2k</div>
+                <div class="stat-label text-gray-500">获赞</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value text-gray-800">256</div>
+                <div class="stat-label text-gray-500">关注</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value text-gray-800">512</div>
+                <div class="stat-label text-gray-500">粉丝</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帖子列表 -->
+    <div class="mt-4 px-4 space-y-4 pb-8">
+        <!-- 帖子卡片 -->
+        <div class="post-card p-4">
+            <div class="mb-3">
+                <h3 class="font-medium mb-2 text-gray-800">求购二手自行车</h3>
+                <p class="text-gray-600 text-sm">想买一辆二手自行车，预算500以内，有意者请联系我。</p>
+            </div>
+            <div class="flex justify-between text-gray-500 text-sm">
+                <div class="flex space-x-4">
+                    <div class="flex items-center hover:text-blue-500 cursor-pointer">
+                        <i class="far fa-heart mr-1"></i>
+                        <span>12</span>
+                    </div>
+                    <div class="flex items-center hover:text-blue-500 cursor-pointer">
+                        <i class="far fa-comment mr-1"></i>
+                        <span>5</span>
+                    </div>
+                </div>
+                <div class="hover:text-blue-500 cursor-pointer">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 更多帖子卡片 -->
+        <div class="post-card p-4">
+            <div class="mb-3">
+                <h3 class="font-medium mb-2 text-gray-800">图书馆学习小组招募</h3>
+                <p class="text-gray-600 text-sm">寻找一起准备考研的同学，每周固定时间在图书馆学习。</p>
+            </div>
+            <div class="flex justify-between text-gray-500 text-sm">
+                <div class="flex space-x-4">
+                    <div class="flex items-center hover:text-blue-500 cursor-pointer">
+                        <i class="far fa-heart mr-1"></i>
+                        <span>28</span>
+                    </div>
+                    <div class="flex items-center hover:text-blue-500 cursor-pointer">
+                        <i class="far fa-comment mr-1"></i>
+                        <span>15</span>
+                    </div>
+                </div>
+                <div class="hover:text-blue-500 cursor-pointer">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

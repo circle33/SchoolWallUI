@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索 - 校园墙</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .search-bar {
+            position: relative;
+            background: #f1f5f9;
+            border-radius: 20px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+        }
+        .search-bar:focus-within {
+            background: #e2e8f0;
+        }
+        .search-input {
+            background: transparent;
+            outline: none;
+            border: none;
+            flex: 1;
+            font-size: 14px;
+            color: #1e293b;
+            padding-right: 8px;
+        }
+        .search-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .search-badge i {
+            font-size: 10px;
+            margin-left: 4px;
+            cursor: pointer;
+        }
+        .history-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.2s;
+        }
+        .history-item:hover {
+            background: #f8fafc;
+        }
+        .trending-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.2s;
+        }
+        .trending-item:hover {
+            background: #f8fafc;
+        }
+        .trending-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .trending-rank.top-3 {
+            color: white;
+        }
+        .trending-rank.top-1 {
+            background: #ef4444;
+        }
+        .trending-rank.top-2 {
+            background: #f97316;
+        }
+        .trending-rank.top-3 {
+            background: #f59e0b;
+        }
+        .trending-rank.other {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        .history-drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .history-drawer.expanded {
+            max-height: 500px;
+        }
+        .search-button {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3b82f6;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .search-button:hover {
+            background: #2563eb;
+        }
+        .search-button.loading {
+            animation: spin 1s linear infinite;
+        }
+        .search-type-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-top: 4px;
+            display: none;
+            z-index: 100;
+        }
+        .search-type-dropdown.show {
+            display: block;
+        }
+        .search-type-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .search-type-item:hover {
+            background: #f1f5f9;
+        }
+        .search-type-item.active {
+            background: #e2e8f0;
+            color: #3b82f6;
+        }
+        @keyframes spin {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+        .keyboard-hint {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .keyboard-hint kbd {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 顶部导航 -->
+    <div class="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
+        <div class="flex items-center px-4 py-3">
+            <button class="mr-3 text-gray-600" onclick="history.back()">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </button>
+            <div class="flex-1">
+                <div class="search-bar">
+                    <div id="searchBadge" class="search-badge" onclick="toggleSearchTypeDropdown()">
+                        <span id="badgeText">帖子</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <i class="fas fa-search text-gray-400 mr-2"></i>
+                    <input type="text" id="searchInput" placeholder="搜索" class="search-input">
+                    <div class="search-type-dropdown" id="searchTypeDropdown">
+                        <div class="search-type-item active" data-type="帖子">搜索帖子</div>
+                        <div class="search-type-item" data-type="用户">搜索用户</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索历史 -->
+    <div class="mt-24 px-4">
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-bold text-gray-800">搜索历史</h2>
+            <button class="text-gray-500 text-sm" onclick="toggleHistoryDrawer()">
+                <span class="history-text">展开</span>
+                <i class="fas fa-chevron-down ml-1"></i>
+            </button>
+        </div>
+        <!-- 默认显示的历史记录 -->
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="history-item flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-3"></i>
+                    <span class="text-gray-800">二手自行车</span>
+                </div>
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+            <div class="history-item flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-3"></i>
+                    <span class="text-gray-800">校园歌手大赛</span>
+                </div>
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+            <div class="history-item flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-3"></i>
+                    <span class="text-gray-800">考研资料</span>
+                </div>
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- 展开后的历史记录 -->
+        <div class="history-drawer bg-white rounded-lg shadow-sm mt-2">
+            <div class="p-3 text-sm text-gray-500 border-b border-gray-100">
+                近三天搜索记录
+            </div>
+            <div class="history-item flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-3"></i>
+                    <span class="text-gray-800">图书馆占座</span>
+                </div>
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+            <div class="history-item flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-3"></i>
+                    <span class="text-gray-800">校园跑腿</span>
+                </div>
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 今日热搜 -->
+    <div class="mt-6 px-4">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">今日热搜</h2>
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="trending-item flex items-center">
+                <div class="trending-rank top-1 mr-3">1</div>
+                <div class="flex-1">
+                    <div class="text-gray-800">校园歌手大赛报名</div>
+                    <div class="text-sm text-gray-500 mt-1">2.3万次搜索</div>
+                </div>
+            </div>
+            <div class="trending-item flex items-center">
+                <div class="trending-rank top-2 mr-3">2</div>
+                <div class="flex-1">
+                    <div class="text-gray-800">考研资料分享</div>
+                    <div class="text-sm text-gray-500 mt-1">1.8万次搜索</div>
+                </div>
+            </div>
+            <div class="trending-item flex items-center">
+                <div class="trending-rank top-3 mr-3">3</div>
+                <div class="flex-1">
+                    <div class="text-gray-800">校园跑腿服务</div>
+                    <div class="text-sm text-gray-500 mt-1">1.5万次搜索</div>
+                </div>
+            </div>
+            <div class="trending-item flex items-center">
+                <div class="trending-rank other mr-3">4</div>
+                <div class="flex-1">
+                    <div class="text-gray-800">图书馆占座</div>
+                    <div class="text-sm text-gray-500 mt-1">1.2万次搜索</div>
+                </div>
+            </div>
+            <div class="trending-item flex items-center">
+                <div class="trending-rank other mr-3">5</div>
+                <div class="flex-1">
+                    <div class="text-gray-800">二手自行车</div>
+                    <div class="text-sm text-gray-500 mt-1">1.0万次搜索</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchBadge = document.getElementById('searchBadge');
+        const badgeText = document.getElementById('badgeText');
+        const searchTypeDropdown = document.getElementById('searchTypeDropdown');
+        let currentSearchType = '帖子';
+        let isSearching = false;
+
+        function toggleSearchTypeDropdown() {
+            searchTypeDropdown.classList.toggle('show');
+        }
+
+        // 点击搜索类型选项
+        document.querySelectorAll('.search-type-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const type = this.dataset.type;
+                currentSearchType = type;
+                badgeText.textContent = type;
+                searchInput.placeholder = `搜索${type}`;
+                
+                // 更新选中状态
+                document.querySelectorAll('.search-type-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                searchTypeDropdown.classList.remove('show');
+            });
+        });
+
+        // 点击其他地方关闭下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!searchBadge.contains(e.target) && !searchTypeDropdown.contains(e.target)) {
+                searchTypeDropdown.classList.remove('show');
+            }
+        });
+
+        function handleSearch() {
+            const searchText = searchInput.value.trim();
+            if (!searchText || isSearching) return;
+
+            isSearching = true;
+            // TODO: 实现实际的搜索逻辑
+            console.log(`搜索${currentSearchType}: ${searchText}`);
+            
+            // 模拟搜索完成
+            setTimeout(() => {
+                isSearching = false;
+            }, 1000);
+        }
+
+        // 回车触发搜索
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+        function toggleHistoryDrawer() {
+            const drawer = document.querySelector('.history-drawer');
+            const button = document.querySelector('.history-text');
+            const icon = document.querySelector('.fa-chevron-down');
+            
+            drawer.classList.toggle('expanded');
+            if (drawer.classList.contains('expanded')) {
+                button.textContent = '收起';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                button.textContent = '展开';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // 添加键盘提示
+        const keyboardHint = document.createElement('div');
+        keyboardHint.className = 'keyboard-hint';
+        keyboardHint.innerHTML = '<kbd>Enter</kbd> 搜索';
+        searchInput.parentNode.appendChild(keyboardHint);
+    </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 校园墙</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .comment-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .comment-item:hover {
+            transform: translateY(-2px);
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+        .image-grid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        .image-grid img:hover {
+            transform: scale(1.02);
+        }
+        .nav-icon {
+            transition: all 0.2s;
+        }
+        .nav-icon:hover {
+            color: #3b82f6;
+        }
+        .interaction-btn {
+            transition: all 0.2s;
+        }
+        .interaction-btn:hover {
+            color: #3b82f6;
+        }
+        /* 自定义滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .post-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #3b82f6;
+            background-color: #f0f7ff;
+            margin-right: 8px;
+        }
+        .online-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .online {
+            background-color: #22c55e;
+        }
+        .offline {
+            background-color: #94a3b8;
+        }
+        .avatar-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 顶部导航 -->
+    <div class="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center">
+                <i class="fas fa-arrow-left text-gray-600 nav-icon"></i>
+                <h1 class="text-xl font-bold ml-4 text-blue-600">帖子详情</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <i class="fas fa-share-alt text-gray-600 nav-icon"></i>
+                <i class="fas fa-ellipsis-h text-gray-600 nav-icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帖子内容 -->
+    <div class="mt-16 px-4">
+        <div class="bg-white rounded-lg p-4 shadow-sm">
+            <!-- 作者信息 -->
+            <div class="flex items-center mb-4">
+                <div class="avatar-container">
+                    <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop" class="w-12 h-12 rounded-full object-cover border-2 border-blue-100" alt="用户头像">
+                    <div class="online-status online"></div>
+                </div>
+                <div class="ml-3">
+                    <div class="font-medium text-gray-800">张三</div>
+                    <div class="text-xs text-gray-500">2小时前</div>
+                </div>
+                <button class="ml-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm transition-colors">
+                    关注
+                </button>
+            </div>
+
+            <!-- 帖子内容 -->
+            <div class="mb-4">
+                <h2 class="text-lg font-bold mb-2 text-gray-800">求购二手自行车</h2>
+                <p class="text-gray-600">想买一辆二手自行车，预算500以内，有意者请联系我。要求：</p>
+                <ul class="list-disc list-inside text-gray-600 mt-2">
+                    <li>车况良好，无明显损坏</li>
+                    <li>最好是捷安特或美利达品牌</li>
+                    <li>可以接受轻微使用痕迹</li>
+                </ul>
+            </div>
+
+            <!-- 图片展示 -->
+            <div class="image-grid mb-4">
+                <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=300&h=300&fit=crop" alt="自行车图片1">
+                <img src="https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=300&h=300&fit=crop" alt="自行车图片2">
+                <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=300&h=300&fit=crop" alt="自行车图片3">
+            </div>
+
+            <!-- 互动数据 -->
+            <div class="flex justify-between text-gray-500 text-sm border-t border-b py-3">
+                <div class="flex space-x-4">
+                    <div class="interaction-btn flex items-center cursor-pointer">
+                        <i class="far fa-heart mr-1"></i>
+                        <span>12</span>
+                    </div>
+                    <div class="interaction-btn flex items-center cursor-pointer">
+                        <i class="far fa-comment mr-1"></i>
+                        <span>5</span>
+                    </div>
+                </div>
+                <div class="interaction-btn cursor-pointer">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 评论区 -->
+        <div class="mt-4">
+            <h3 class="font-bold mb-4 text-gray-800">评论 (5)</h3>
+            <div class="space-y-4">
+                <!-- 评论项 -->
+                <div class="comment-item p-4">
+                    <div class="flex items-start">
+                        <div class="avatar-container">
+                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&h=150&fit=crop" class="w-10 h-10 rounded-full object-cover border-2 border-blue-100" alt="用户头像">
+                            <div class="online-status offline"></div>
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <div class="flex justify-between items-center">
+                                <div class="font-medium text-gray-800">李四</div>
+                                <div class="text-xs text-gray-500">1小时前</div>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-1">我有一辆捷安特，去年买的，要看看吗？</p>
+                            <div class="flex items-center text-gray-500 text-xs mt-2">
+                                <div class="interaction-btn flex items-center">
+                                    <i class="far fa-heart mr-1"></i>
+                                    <span>2</span>
+                                </div>
+                                <div class="ml-4 interaction-btn">回复</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 更多评论 -->
+                <div class="comment-item p-4">
+                    <div class="flex">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&h=150&fit=crop" class="w-8 h-8 rounded-full object-cover border-2 border-blue-100" alt="评论者头像">
+                        <div class="ml-3 flex-1">
+                            <div class="flex justify-between">
+                                <div class="font-medium text-gray-800">王五</div>
+                                <div class="text-xs text-gray-500">5分钟前</div>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-1">预算可以稍微提高一点吗？我有一辆很好的车</p>
+                            <div class="flex items-center text-gray-500 text-xs mt-2">
+                                <div class="interaction-btn flex items-center">
+                                    <i class="far fa-heart mr-1"></i>
+                                    <span>1</span>
+                                </div>
+                                <div class="ml-4 interaction-btn">回复</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部评论框 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2">
+        <div class="flex items-center">
+            <input type="text" placeholder="说点什么..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+            <button class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm transition-colors">
+                发送
+            </button>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息 - 校园墙</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .message-section {
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 14px;
+            color: #64748b;
+            padding: 8px 16px;
+            background: #f8fafc;
+        }
+        .message-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            margin: 0 16px 8px;
+        }
+        .message-item:hover {
+            transform: translateY(-2px);
+        }
+        .unread-badge {
+            background: #3b82f6;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+        .nav-icon {
+            transition: all 0.2s;
+        }
+        .nav-icon:hover {
+            color: #3b82f6;
+        }
+        .system-icon {
+            width: 48px;
+            height: 48px;
+            background: #f0f7ff;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .system-icon i {
+            font-size: 24px;
+            color: #3b82f6;
+        }
+        .interaction-icon {
+            width: 48px;
+            height: 48px;
+            background: #fdf2f8;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .interaction-icon i {
+            font-size: 24px;
+            color: #ec4899;
+        }
+        .online-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .online {
+            background-color: #22c55e;
+        }
+        .offline {
+            background-color: #94a3b8;
+        }
+        .avatar-container {
+            position: relative;
+        }
+        /* 自定义滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 顶部导航 -->
+    <div class="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+            <h1 class="text-xl font-bold text-blue-600">消息</h1>
+            <i class="fas fa-ellipsis-h text-gray-600 nav-icon"></i>
+        </div>
+    </div>
+
+    <!-- 消息列表 -->
+    <div class="mt-16">
+        <!-- 系统通知 -->
+        <div class="message-section">
+            <div class="section-title">系统通知</div>
+            <div class="message-item p-4">
+                <div class="flex items-center">
+                    <div class="system-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium text-gray-800">系统通知</div>
+                            <div class="text-xs text-gray-500">10:30</div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">您的帖子已获得10个赞</p>
+                    </div>
+                    <div class="ml-4">
+                        <span class="unread-badge">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-item p-4">
+                <div class="flex items-center">
+                    <div class="interaction-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium text-gray-800">互动消息</div>
+                            <div class="text-xs text-gray-500">09:45</div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">李四赞了你的帖子《求购二手自行车》</p>
+                    </div>
+                    <div class="ml-4">
+                        <span class="unread-badge">1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天消息 -->
+        <div class="message-section">
+            <div class="section-title">聊天消息</div>
+            <div class="message-item p-4">
+                <div class="flex items-center">
+                    <div class="avatar-container">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&h=150&fit=crop" class="w-12 h-12 rounded-full object-cover border-2 border-blue-100" alt="用户头像">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium text-gray-800">王五</div>
+                            <div class="text-xs text-gray-500">昨天</div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">你好，我对你的自行车很感兴趣</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-item p-4">
+                <div class="flex items-center">
+                    <div class="avatar-container">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" class="w-12 h-12 rounded-full object-cover border-2 border-blue-100" alt="用户头像">
+                        <div class="online-status offline"></div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium text-gray-800">赵六</div>
+                            <div class="text-xs text-gray-500">昨天</div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">请问学习小组还缺人吗？</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <div class="flex justify-around py-2">
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs mt-1">首页</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-plus-circle text-xl"></i>
+                <span class="text-xs mt-1">发布</span>
+            </div>
+            <div class="flex flex-col items-center text-blue-500">
+                <i class="fas fa-comment text-xl"></i>
+                <span class="text-xs mt-1">消息</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs mt-1">我的</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
